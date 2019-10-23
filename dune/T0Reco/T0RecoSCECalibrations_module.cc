@@ -459,12 +459,12 @@ void T0RecoSCECalibrations::analyze(art::Event const & e){
     	auto const* geom = lar::providerFrom<geo::Geometry>();   
     	auto const* hit = Hit_v.at(0);
     	const geo::WireID wireID = hit->WireID();
-		const auto TPCGeoObject = geom->TPC(wireID.TPC,wireID.Cryostat);
+		auto const& TPCGeoObject = geom->TPC(wireID);
 		short int driftDir1 = TPCGeoObject.DetectDriftDirection();
 		bool cross_cathode = false;
     	for (size_t ii = 1; ii < Hit_v.size(); ii++) {
     		const geo::WireID wireID2 = Hit_v.at(ii)->WireID();
-			const auto TPCGeoObject2 = geom->TPC(wireID2.TPC,wireID2.Cryostat);
+			auto const& TPCGeoObject2 = geom->TPC(wireID2);
 			short int driftDir2 = TPCGeoObject2.DetectDriftDirection(); 
 		
 			if(driftDir1 + driftDir2 == 0){

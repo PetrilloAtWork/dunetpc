@@ -580,13 +580,13 @@ void T0RecoSCE::analyze(art::Event const & evt){
 		auto const* geom = lar::providerFrom<geo::Geometry>();   
     	auto const* hit = hit_v.at(0);
 	    const geo::WireID wireID = hit->WireID();
-		const auto TPCGeoObject = geom->TPC(wireID.TPC,wireID.Cryostat);
+		auto const& TPCGeoObject = geom->TPC(wireID);
 		short int driftDir_start = TPCGeoObject.DetectDriftDirection();
 		short int driftDir_end = 0;
 
 	    for (size_t ii = 1; ii < hit_v.size(); ii++) {
     		const geo::WireID wireID2 = hit_v.at(ii)->WireID();
-			const auto TPCGeoObject2 = geom->TPC(wireID2.TPC,wireID2.Cryostat);
+			auto const& TPCGeoObject2 = geom->TPC(wireID2);
 			driftDir_end = TPCGeoObject2.DetectDriftDirection(); 
 		
 			if(driftDir_end + driftDir_start == 0){

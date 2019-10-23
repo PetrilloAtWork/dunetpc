@@ -185,8 +185,7 @@ T0RecoAnodePiercers::T0RecoAnodePiercers(fhicl::ParameterSet const & fcl)
 	det_front = fEdgeWidth;
 	det_back = fEdgeWidth;
 
-	for (geo::TPCID const& tID: geom->IterateTPCIDs()) {
-		geo::TPCGeo const& TPC = geom->TPC(tID);
+	for (geo::TPCGeo const& TPC: geom->IterateTPCs()) {
 
 		if(TPC.DriftDistance() < 25.0) continue;
 
@@ -413,7 +412,7 @@ void T0RecoAnodePiercers::produce(art::Event& event){
 		auto const* geom = lar::providerFrom<geo::Geometry>();   
 		auto const* first_hit = hit_v.at(0);
 		const geo::WireID wireID_start = first_hit->WireID();
-		const auto TPCGeoObject_start = geom->TPC(wireID_start.TPC,wireID_start.Cryostat);
+		auto const& TPCGeoObject_start = geom->TPC(wireID_start);
 		short int driftDir_start = TPCGeoObject_start.DetectDriftDirection();
 
 		short int driftDir_end = 0;
@@ -421,7 +420,7 @@ void T0RecoAnodePiercers::produce(art::Event& event){
 
 	    for (size_t ii = 1; ii < hit_v.size(); ii++) {
     		const geo::WireID wireID_end = hit_v.at(ii)->WireID();
-			const auto TPCGeoObject_end = geom->TPC(wireID_end.TPC,wireID_end.Cryostat);
+			auto const& TPCGeoObject_end = geom->TPC(wireID_end);
 			driftDir_end = TPCGeoObject_end.DetectDriftDirection(); 
 		
 			if(driftDir_end + driftDir_start == 0){
