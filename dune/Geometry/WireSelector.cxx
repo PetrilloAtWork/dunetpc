@@ -127,7 +127,7 @@ const WireSelector::WireInfoVector& WireSelector::fillData() {
     double driftOffset = fabs(xThisPlane - xLastPlane);
     for ( Index iwir=0; iwir<gpla.Nwires(); ++iwir ) {
       geo::WireID wid(pid, iwir);
-      const geo::WireGeo* pgwir = gpla.WirePtr(wid);
+      geo::WirePtr const pgwir = gpla.WirePtr(wid);
       double wireAngle = gpla.ThetaZ() - piOver2;
       TVector3 xyzWire = pgwir->GetCenter<TVector3>();
       xyzWire.RotateX(wireAngle);

@@ -55,7 +55,7 @@ using readout::ROPID;
 using geo::Geometry;
 using geo::CryostatGeo;
 using geo::TPCGeo;
-using geo::WireGeo;
+using geo::WirePtr;
 using Index = WireSelector::Index;
 
 string toString(const TVector3& xyz, int w =9) {
@@ -199,7 +199,7 @@ int test_WireSelector(string gname, double wireAngle, double minDrift, unsigned 
       ostringstream wout;
       if ( ! endBlock ) {
         WireID wid(pid, iwir);
-        const WireGeo* pgwir = pgeo->WirePtr(wid);
+        const WirePtr pgwir = pgeo->WirePtr(wid);
         TVector3 xyzWire = pgwir->GetCenter<TVector3>();
         TVector3 xyz1 = pgwir->GetStart<TVector3>();
         TVector3 xyz2 = pgwir->GetEnd<TVector3>();

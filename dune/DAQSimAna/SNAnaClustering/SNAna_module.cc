@@ -876,7 +876,7 @@ void SNAna::analyze(art::Event const & evt)
 
           double wire_start[3] = {0,0,0};
           double wire_end[3] = {0,0,0};
-          auto& wgeo = geo->WireIDToWireGeo(ThisHit.WireID());
+          auto const& wgeo = geo->Wire(ThisHit.WireID());
           wgeo.GetStart(wire_start);
           wgeo.GetEnd(wire_end);
           Hit_X_start.push_back(wire_start[0]);

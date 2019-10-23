@@ -50,7 +50,7 @@ using readout::ROPID;
 using geo::Geometry;
 using geo::CryostatGeo;
 using geo::TPCGeo;
-using geo::WireGeo;
+using geo::WirePtr;
 
 typedef unsigned int Index;
 const Index InvalidIndex = std::numeric_limits<Index>::max();
@@ -355,7 +355,7 @@ int test_GeometryDune(const ExpectedValues& ev, bool dorop, Index maxchanprint,
       checkval("\nPlaneWireToChannel", pgeo->PlaneWireToChannel(wirid), icha );
       assert( pgeo->SignalType(icha) == ev.sigType[wirid.Cryostat][wirid.TPC][wirid.Plane] );
       checkval("View", pgeo->View(icha), ev.view[wirid.Cryostat][wirid.TPC][wirid.Plane]);
-      const WireGeo* pwg = pgeo->WirePtr(wirid);
+      const WirePtr pwg = pgeo->WirePtr(wirid);
       TVector3 p1 = pwg->GetStart();
       TVector3 p2 = pwg->GetEnd();
       if ( sposs.str().size() ) sposs << ", ";
