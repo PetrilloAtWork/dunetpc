@@ -65,6 +65,13 @@ tools.channelGroups: {
   IndexRangeTool: channelRanges
 }
 
+tools.channelGroupsApa7: {
+  tool_type: ApaChannelGroups
+  LogLevel: 0
+  ApaNumbers: [7]
+  IndexRangeTool: channelRanges
+}
+
 ################################################################################
 # Reco.
 ################################################################################
@@ -72,6 +79,7 @@ tools.channelGroups: {
 # Fit ADC distribution to get pedestal.
 tools.pd_adcPedestalFit: {
   tool_type: AdcPedestalFitter
+  SkipFlags: [8, 9, 10, 11, 12]
   LogLevel: 1
   FitRmsMin:  3.0
   FitRmsMax: 20.0
