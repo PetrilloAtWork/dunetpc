@@ -72,6 +72,7 @@ simple_plugin ( CheckDPhaseGeometry "module"
                BASENAME_ONLY
           )
 
+add_subdirectory("PixelAnode")
 add_subdirectory(gdml)
 add_subdirectory(test)
 
