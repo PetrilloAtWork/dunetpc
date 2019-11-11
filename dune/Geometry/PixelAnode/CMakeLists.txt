@@ -5,7 +5,6 @@ cet_make(
   EXCLUDE
     "GeometryBuilderDUNEPixelTool_tool.cc"
   LIBRARIES
-    larcorealg_Geometry_PixelPlane
     larcorealg_Geometry
     larcorealg_CoreUtils
     ${MF_MESSAGELOGGER}
@@ -23,7 +22,6 @@ cet_make(
 #
 simple_plugin(GeometryBuilderDUNEPixelTool "tool"
   dune_Geometry_PixelAnode
-  larcorealg_Geometry_PixelPlane
   larcorealg_Geometry
   )
 
