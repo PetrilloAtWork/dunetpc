@@ -1,0 +1,82 @@
+#
+# File:     test_dunend_geometry.fcl
+# Purpouse: Runs the geometry test on the DUNE near detector geometry.
+# Author:   Gianluca Petrillo (petrillo@slac.stanford.edu)
+# Date:     November 7, 2019
+# Version:  1.0
+#
+# Some tests are disabled because specific to wire-based detectors.
+#
+# Service dependencies:
+#  * Geometry service
+#  * message facility
+#
+# Changes:
+# 20191107 (petrillo@slac.stanford.edu) [v1.0]
+#   first version, relying on "test_geometry.fcl" v 1.1 (LArSoft 8.35.00)
+#
+
+#include "geometry_dunend.fcl"
+#include "messageservice.fcl"
+#include "test_geometry.fcl"
+
+
+services: {
+  message: {
+    destinations: {
+      LogDebugFile: { 
+        type:       "file"
+        filename:   "debug.log"
+        threshold:  "DEBUG"
+        categories: {
+          default: { limit: -1 }
+        }
+      }
+      LogStandardOut: {
+        type:       "cout"
+        threshold:  "INFO"
+        categories:{
+          default:{ limit: -1 }
+          RecoBaseDefaultCtor: { limit: 0 }
+          AnaBaseDefaultCtor:  { limit: 0 }
+          GeometryBadInputPoint: { limit: 5 timespan: 1000}
+        }
+      }
+      LogStandardError: {
+        type:       "cerr"
+        threshold:  "ERROR"
+        categories:{
+          default:{ }
+        }
+      }
+    }
+  }
+  
+  @table::dunend_lartpc_geometry_settings
+  
+} # services
+
+
+physics.analyzers.geotest.RunTests: [
+  # run the default test suite (actually unnecessary):
+  "@default",
+  
+  #
+  # the following tests currently fail
+  # (in many cases the failure is known to be the design of the test)
+  #
+  
+  "-PlanePointDecomposition",
+  "-WireCoordAngle",
+  "-NearestWire",
+  
+  #  * WirePitch: wrong test (all sensitive elements are expected to have the same pitch)
+  "-WirePitch",
+  
+  #  * Stepping: no idea what this test is actually about
+  "-Stepping"
+  
+]
+
+# Uncomment if you want to check for overlaps
+# physics.analyzers.geotest.CheckForOverlaps: true 

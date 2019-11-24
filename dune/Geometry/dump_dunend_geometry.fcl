@@ -1,0 +1,51 @@
+#
+# File:     dump_dunend_geometry.fcl
+# Purpouse: Dumps the geometry of the DUNE near detector.
+# Author:   Gianluca Petrillo (petrillo@slac.stanford.edu)
+# Date:     October 23, 2019
+# Version:  1.0
+#
+# A complete dump of the LArTPC component of DUNE near detector is produced.
+# Watch out for the pixels!
+#
+# Service dependencies:
+#  * Geometry service
+#  * message facility
+#
+
+#include "geometry_dunend.fcl"
+
+#include "messageservice.fcl"
+#include "dump_lartpcdetector_geometry.fcl"
+
+
+services: {
+  message: {
+    destinations: {
+      GeometryLog: {
+        categories: {
+          DumpGeometry: { limit: -1 }
+          default:      { limit: 0 }
+        }
+        filename: "DUNEND-LAr-geometry.txt"
+        threshold: "INFO"
+        type: "file"
+      }
+      debugmsg: {
+        categories: {
+          default: { limit: -1 }
+        }
+        filename: "debug.log"
+        threshold: "DEBUG"
+        type: "file"
+      }
+    }
+  }
+  
+  @table::dunend_lartpc_geometry_settings
+  
+} # services
+
+
+# exclude wire details
+# physics.analyzers.geometrydump.verbosity: 7

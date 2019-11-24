@@ -1,0 +1,147 @@
+#
+# File:     geometry_dunend.fcl
+# Purpouse: Geometry settings for DUNE ND LArTPC detector.
+# Author:   Gianluca Petrillo (petrillo@slac.stanford.edu)
+# Date:     November 22, 2019
+# Version:  1.0
+# 
+# Available configurations include:
+# 
+# * 32x128x64 cm, 64x64 pixel (`dunend_lartpc_32_128_64_80_80_geometry_settings`)
+#   a 8-TPC model, each TPC ~ft^3 with 64x64 pixel grids, and optical detectors
+# 
+#
+# Changes:
+# 20191122 (petrillo@slac.stanford.edu) [v1.0]
+#   first version
+#
+
+BEGIN_PROLOG
+
+# ##############################################################################
+# ###  shared settings
+# ##############################################################################
+#
+# channel mapping settings: simple 1-to-1 pixel to channel
+#
+dunend_standard_pixel_channel_mapping: {
+  
+  tool_type: ChannelMapPixelSetupTool
+  
+} # dunend_standard_pixel_channel_mapping
+
+
+#
+# geometry sorter settings: LArSoft default
+#
+dunend_standard_geometry_sorter: {
+  
+  tool_type: GeoObjectSorterStandardSetupTool
+  
+} # dunend_standard_pixel_channel_mapping
+
+
+
+# ##############################################################################
+# ### DUNE ND 8 TPCs 32x128x64 cm, 64x64 pixel
+# ##############################################################################
+# ###
+# ### This detector consists of cubic TPC's, each one 32x32x32 cm with a
+# ### 80x80 grid of ~0.38-mm pixels. Eight of these TPC's are stacked in two
+# ### vertical columns, and all have the same drift direction (i.e. no shared
+# ### cathode). In addition, optical detector pads are included.
+# ### 
+# ### The detector geometry file can be found in GitHub PPKoller/dunendggdat at:
+# ### 
+# ### https://github.com/PPKoller/dunendggd/blob/optSim/ArgonCube/optSim.gdml
+# ### 
+# ### 
+# ###
+# ### Examples:
+# ###     
+# ###     #include "geometry_dunend.fcl"
+# ###     
+# ###     services: {
+# ###       @table::dunend_lartpc_32_128_64_80_80_geometry_settings
+# ###     }
+# ###     
+# ### or:
+# ###     
+# ###     #include "geometry_dunend.fcl"
+# ###     
+# ###     services: {
+# ###       Geometry: @local::dunend_lartpc_32_128_64_80_80_geometry
+# ###     }
+# ###     
+# ###
+
+#
+# geometry service configuration
+#
+dunend_lartpc_32_128_64_80_80_geometry: {
+  
+  Name:            "DUNE-ND-32x128x64_64x64px"
+  
+  GDML:            "optSim.gdml"
+  ROOT:            "optSim.gdml"
+  
+  SurfaceY:         690 # cm
+  DisableWiresInG4: false
+  
+  ChannelMapping:   @local::dunend_standard_pixel_channel_mapping
+  
+  Sorter:           @local::dunend_standard_geometry_sorter
+  
+  Builder: {
+    tool_type: GeometryBuilderDUNEPixelTool
+  } # Builder
+  
+} # dunend_lartpc_32_128_64_80_80_geometry
+
+
+#
+# all geometry settings
+#
+dunend_lartpc_32_128_64_80_80_geometry_settings: {
+
+  # ExptGeoHelperInterface is not needed
+  Geometry: @local::dunend_lartpc_32_128_64_80_80_geometry
+  
+} # dunend_lartpc_32_128_64_80_80_geometry_settings
+
+
+
+# ##############################################################################
+# ###  Default geometry
+# ##############################################################################
+# ###
+# ### A choice among the available detector geometries is made here as
+# ### "default". Very much subject to change.
+# ###
+# ### Examples of usage:
+# ###     
+# ###     #include "geometry_dunend.fcl"
+# ###     
+# ###     services: {
+# ###       @table::dunend_lartpc_geometry_settings
+# ###     }
+# ###     
+# ### or:
+# ###     
+# ###     #include "geometry_dunend.fcl"
+# ###     
+# ###     services: {
+# ###       Geometry: @local::dunend_lartpc_geometry
+# ###     }
+# ###     
+# ###
+
+# pick the standard settings, and define the single components from there
+dunend_lartpc_geometry_settings: @local::dunend_lartpc_32_128_64_80_80_geometry_settings
+
+dunend_lartpc_geometry: @local::dunend_lartpc_geometry_settings.Geometry
+
+
+# ##############################################################################
+
+END_PROLOG

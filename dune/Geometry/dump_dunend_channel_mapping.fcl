@@ -1,0 +1,46 @@
+#
+# File:     dump_dunend_channel_mapping.fcl
+# Purpouse: Dumps the geometry of the DUNE near detector.
+# Author:   Gianluca Petrillo (petrillo@slac.stanford.edu)
+# Date:     November 7, 2019
+# Version:  1.0
+#
+# A dump of the LArTPC channels of DUNE near detector is produced.
+#
+# Service dependencies:
+#  * Geometry service
+#  * message facility
+#
+
+#include "geometry_dunend.fcl"
+#include "messageservice.fcl"
+#include "dump_lartpcdetector_channelmap.fcl"
+
+
+services: {
+  message: {
+    destinations: {
+      LogChannelMap: {
+        categories: {
+          DumpChannelMap: { limit: -1 }
+          default:      { limit: 0 }
+        }
+        filename: "DUNEND-LAr-channelmap.txt"
+        threshold: "INFO"
+        type: "file"
+      }
+      debugmsg: {
+        categories: {
+          default: { limit: -1 }
+        }
+        filename: "debug.log"
+        threshold: "DEBUG"
+        type: "file"
+      }
+    }
+  }
+  
+  @table::dunend_lartpc_geometry_settings
+  
+} # services
+
