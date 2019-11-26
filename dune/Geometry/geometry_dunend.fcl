@@ -7,8 +7,8 @@
 # 
 # Available configurations include:
 # 
-# * 32x128x64 cm, 64x64 pixel (`dunend_lartpc_32_128_64_80_80_geometry_settings`)
-#   a 8-TPC model, each TPC ~ft^3 with 64x64 pixel grids, and optical detectors
+# * 32x128x64 cm, 80x80 pixel (`dunend_lartpc_32_128_64_80_80_geometry_settings`)
+#   a 8-TPC model, each TPC ~ft^3 with 80x80 pixel grids, and optical detectors
 # 
 #
 # Changes:
@@ -80,7 +80,7 @@ dunend_standard_geometry_sorter: {
 #
 dunend_lartpc_32_128_64_80_80_geometry: {
   
-  Name:            "DUNE-ND-32x128x64_64x64px"
+  Name:            "DUNE-ND-32x128x64_80x80px"
   
   GDML:            "optSim.gdml"
   ROOT:            "optSim.gdml"
@@ -94,6 +94,9 @@ dunend_lartpc_32_128_64_80_80_geometry: {
   
   Builder: {
     tool_type: GeometryBuilderDUNEPixelTool
+    
+    opDetPattern: "^volSiPM[[:digit:]]+"
+    
   } # Builder
   
 } # dunend_lartpc_32_128_64_80_80_geometry
